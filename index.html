@@ -4,17 +4,198 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Капибаро-ГосУслуги</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* ... (стили из предыдущего примера) ... */
-        .queue-container {
-            margin-top: 20px;
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Общие анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in { animation: fadeIn 0.6s ease-out both; }
+        .delay-02 { animation-delay: 0.2s; }
+        .delay-04 { animation-delay: 0.4s; }
+        .delay-06 { animation-delay: 0.6s; }
+
+        header {
+            background-color: rgba(210, 180, 140, 0.8); /* Полупрозрачный */
+            color: #fff;
+            padding: 30px 0;
             text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.8em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        nav {
+            margin-top: 25px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.3em;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background-color: rgba(166, 139, 100, 0.7); /* Полупрозрачный */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: block; /* Занимает всю ширину */
+        }
+
+        nav li a:hover {
+            background-color: rgba(139, 115, 85, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .container {            width: 90%;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 40px;
+            text-align: left; /* Выравнивание текста по левому краю */
+        }
+
+        h2 {
+            font-size: 2.4em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #d2b48c;
+            padding-bottom: 8px;
+            color: #555;
+        }
+
+         form {
+            display: grid;
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        label {
+            font-size: 1.2em;
+            color: #444;
+            display: block;
+            margin-bottom: 8px; /* Отступ между label и input */
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1em;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus {
+            border-color: #d2b48c; /* Подсветка при фокусе */
+            outline: none; /* Убираем стандартную обводку */
+        }
+
+
+        input[type="submit"] {
+            background-color: #a68b64;
+            color: #fff;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        input[type="submit"]:hover {
+            background-color: #8b7355;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+
+        footer {
+            background-color: #d2b48c;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 1.1em;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .capybara-image {
+            display: block;
+            margin: 30px auto;
+            max-width: 350px;
+            border-radius: 15px;            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Очередь и Сообщение */
+        .queue-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        #queueStatus {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #555;
+        }
+
+        #acceptanceMessage {
+            font-size: 1.6em;
+            color: #28a745;
+            display: none;
+            font-weight: 600;
+        }
+         /* Добавлено: Плавное появление элементов при загрузке страницы */
+        body > * {
+            animation: fadeIn 1s ease-out backwards;
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <header class="fade-in delay-02">
         <h1>Капибаро-ГосУслуги</h1>
         <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Capybara_%28Hydrochoerus_hydrochaeris%29.JPG" alt="Капибара" class="capybara-image">
         <nav>
@@ -27,12 +208,17 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container fade-in delay-04">
         <section id="marriage">
             <h2>Регистрация брака</h2>
             <p>Зарегистрируйте ваш союз двух любящих капибар!</p>
-            <form id="marriageForm">
-                <!-- ... форма ... -->
+            <form id="marriageForm"><label for="partner1">Имя первого партнера:</label>
+                <input type="text" id="partner1" name="partner1" required>
+
+                <label for="partner2">Имя второго партнера:</label>
+                <input type="text" id="partner2" name="partner2" required>
+
+                <input type="submit" value="Зарегистрировать">
             </form>
             <div class="queue-container">
                 <div id="marriageQueueStatus"></div>
@@ -44,7 +230,13 @@
             <h2>Добавить детеныша</h2>
             <p>Зарегистрируйте нового члена капибарского сообщества.</p>
             <form id="childrenForm">
-                <!-- ... форма ... -->
+                <label for="childName">Имя детеныша:</label>
+                <input type="text" id="childName" name="childName">
+
+                <label for="birthdate">Дата рождения:</label>
+                <input type="date" id="birthdate" name="birthdate">
+
+                <input type="submit" value="Добавить">
             </form>
             <div class="queue-container">
                 <div id="childrenQueueStatus"></div>
@@ -56,7 +248,13 @@
             <h2>Запись на групповые занятия по плаванию</h2>
             <p>Обучите вашего капибару плавать как профессионал!</p>
             <form id="swimForm">
-                <!-- ... форма ... -->
+                <label for="capybaraName">Имя капибары:</label>
+                <input type="text" id="capybaraName" name="capybaraName">
+
+                <label for="swimDate">Дата занятия:</label>
+                <input type="date" id="swimDate" name="swimDate">
+
+                <input type="submit" value="Записаться">
             </form>
             <div class="queue-container">
                 <div id="swimQueueStatus"></div>
@@ -67,7 +265,14 @@
         <section id="mandarins">
             <h2>Купить мандарины</h2>
             <p>Порадуйте себя и своих близких свежими и сочными мандаринами!</p>
-            <form id="mandarinsForm">                <!-- ... форма ... -->
+            <form id="mandarinsForm">
+                <label for="quantity">Количество (кг):</label>
+                <input type="number" id="quantity" name="quantity">
+
+                <label for="address">Адрес доставки:</label>
+                <input type="text" id="address" name="address">
+
+                <input type="submit" value="Заказать">
             </form>
             <div class="queue-container">
                 <div id="mandarinsQueueStatus"></div>
@@ -76,7 +281,7 @@
         </section>
     </div>
 
-    <footer>
+    <footer class="fade-in delay-06">
         &copy; 2024 Капибаро-ГосУслуги. Все права защищены.
     </footer>
 
@@ -96,8 +301,7 @@
                     if (peopleInQueue > 0) {
                         queueStatus.textContent = `В очереди перед вами: ${peopleInQueue} капибар...`;
                     } else {
-                        clearInterval(interval);
-                        queueStatus.style.display = 'none';
+                        clearInterval(interval);queueStatus.style.display = 'none';
                         acceptanceMessage.style.display = 'block';
                     }
                 }, 1000);
