@@ -99,6 +99,19 @@
             max-width: 300px;
             border-radius: 10px;
         }
+
+        #queueStatus {
+            font-size: 1.2em;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }        #acceptanceMessage {
+            font-size: 1.5em;
+            text-align: center;
+            margin-top: 20px;
+            color: green;
+            display: none; /* Скрываем сообщение */
+        }
     </style>
 </head>
 <body>
@@ -120,15 +133,18 @@
         <section id="marriage">
             <h2>Регистрация брака</h2>
             <p>Зарегистрируйте ваш союз двух любящих капибар!</p>
-            <form>
+            <form id="marriageForm">
                 <label for="partner1">Имя первого партнера:</label><br>
-                <input type="text" id="partner1" name="partner1"><br><br>
+                <input type="text" id="partner1" name="partner1" required><br><br>
 
                 <label for="partner2">Имя второго партнера:</label><br>
-                <input type="text" id="partner2" name="partner2"><br><br>
+                <input type="text" id="partner2" name="partner2" required><br><br>
 
                 <input type="submit" value="Зарегистрировать">
             </form>
+
+             <div id="queueStatus"></div>
+            <div id="acceptanceMessage">Ваша заявка принята!</div>
         </section>
 
         <section id="children">
@@ -148,8 +164,7 @@
         <section id="swim">
             <h2>Запись на групповые занятия по плаванию</h2>
             <p>Обучите вашего капибару плавать как профессионал!</p>
-            <form>
-                <label for="capybaraName">Имя капибары:</label><br>
+            <form>                <label for="capybaraName">Имя капибары:</label><br>
                 <input type="text" id="capybaraName" name="capybaraName"><br><br>
 
                 <label for="swimDate">Дата занятия:</label><br>
@@ -178,5 +193,10 @@
         &copy; 2024 Капибаро-ГосУслуги. Все права защищены.
     </footer>
 
-</body>
-</html>
+    <script>
+        document.getElementById('marriageForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Предотвращаем отправку формы
+
+            const queueStatus = document.getElementById('queueStatus');
+            const acceptanceMessage = document.getElementById('acceptanceMessage');
+            let peopleInQueue = Math.floor(Math.random() * 28) + 1; // Случайное количество людей в очереди от 1 до 28
