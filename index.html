@@ -100,7 +100,7 @@
             color: #555;
         }
 
-         form {
+        form {
             display: grid;
             gap: 20px;
             max-width: 500px;
@@ -181,16 +181,6 @@
             color: #555;
         }
 
-        #acceptanceMessage {
-            font-size: 1.6em;
-            color: #28a745;
-            display: none;
-            font-weight: 600;
-        }
-         /* Добавлено: Плавное появление элементов при загрузке страницы */
-        body > * {
-            animation: fadeIn 1s ease-out backwards;
-        }
     </style>
 </head>
 <body>
@@ -212,7 +202,8 @@
         <section id="marriage">
             <h2>Регистрация брака</h2>
             <p>Зарегистрируйте ваш союз двух любящих капибар!</p>
-            <form id="marriageForm"><label for="partner1">Имя первого партнера:</label>
+            <form id="marriageForm">
+                <label for="partner1">Имя первого партнера:</label>
                 <input type="text" id="partner1" name="partner1" required>
 
                 <label for="partner2">Имя второго партнера:</label>
@@ -221,8 +212,7 @@
                 <input type="submit" value="Зарегистрировать">
             </form>
             <div class="queue-container">
-                <div id="marriageQueueStatus"></div>
-                <div id="marriageAcceptanceMessage">Ваша заявка принята!</div>
+                <div id="marriageQueueStatus" class="queueStatus"></div>
             </div>
         </section>
 
@@ -238,9 +228,8 @@
 
                 <input type="submit" value="Добавить">
             </form>
-            <div class="queue-container">
-                <div id="childrenQueueStatus"></div>
-                <div id="childrenAcceptanceMessage">Ваша заявка принята!</div>
+             <div class="queue-container">
+                <div id="childrenQueueStatus" class="queueStatus"></div>
             </div>
         </section>
 
@@ -257,8 +246,7 @@
                 <input type="submit" value="Записаться">
             </form>
             <div class="queue-container">
-                <div id="swimQueueStatus"></div>
-                <div id="swimAcceptanceMessage">Ваша заявка принята!</div>
+                <div id="swimQueueStatus" class="queueStatus"></div>
             </div>
         </section>
 
@@ -275,8 +263,7 @@
                 <input type="submit" value="Заказать">
             </form>
             <div class="queue-container">
-                <div id="mandarinsQueueStatus"></div>
-                <div id="mandarinsAcceptanceMessage">Ваша заявка принята!</div>
+                <div id="mandarinsQueueStatus" class="queueStatus"></div>
             </div>
         </section>
     </div>
@@ -286,32 +273,32 @@
     </footer>
 
     <script>
-        function showQueue(formId, queueStatusId, acceptanceMessageId) {
+        function showQueue(formId, queueStatusId) {
             document.getElementById(formId).addEventListener('submit', function(event) {
                 event.preventDefault();
 
                 const queueStatus = document.getElementById(queueStatusId);
-                const acceptanceMessage = document.getElementById(acceptanceMessageId);
+
                 let peopleInQueue = Math.floor(Math.random() * 28) + 1;
 
-                queueStatus.textContent = `В очереди перед вами: ${peopleInQueue} капибар...`;
+                queueStatus.textContent = `Вы в очереди. Перед вами: ${peopleInQueue} капибар...`;
 
                 let interval = setInterval(function() {
                     peopleInQueue--;
                     if (peopleInQueue > 0) {
-                        queueStatus.textContent = `В очереди перед вами: ${peopleInQueue} капибар...`;
+                        queueStatus.textContent = `Вы в очереди. Перед вами: ${peopleInQueue} капибар...`;
                     } else {
-                        clearInterval(interval);queueStatus.style.display = 'none';
-                        acceptanceMessage.style.display = 'block';
+                        clearInterval(interval);
+                        queueStatus.textContent = "Ваша очередь подошла!";
                     }
                 }, 1000);
             });
         }
 
-        showQueue('marriageForm', 'marriageQueueStatus', 'marriageAcceptanceMessage');
-        showQueue('childrenForm', 'childrenQueueStatus', 'childrenAcceptanceMessage');
-        showQueue('swimForm', 'swimQueueStatus', 'swimAcceptanceMessage');
-        showQueue('mandarinsForm', 'mandarinsQueueStatus', 'mandarinsAcceptanceMessage');
+        showQueue('marriageForm', 'marriageQueueStatus');
+        showQueue('childrenForm', 'childrenQueueStatus');
+        showQueue('swimForm', 'swimQueueStatus');
+        showQueue('mandarinsForm', 'mandarinsQueueStatus');
     </script>
 
 </body>
