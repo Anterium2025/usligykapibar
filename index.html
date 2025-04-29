@@ -199,4 +199,21 @@
 
             const queueStatus = document.getElementById('queueStatus');
             const acceptanceMessage = document.getElementById('acceptanceMessage');
-            let peopleInQueue = Math.floor(Math.random() * 28) + 1; // Случайное количество людей в очереди от 1 до 28
+            let peopleInQueue = Math.floor(Math.random() * 28) + 1; // Случайное количество людей в очереди от 1 до 28queueStatus.textContent = `В очереди перед вами: ${peopleInQueue} капибар...`;
+
+            // Симуляция уменьшения очереди
+            let interval = setInterval(function() {
+                peopleInQueue--;
+                if (peopleInQueue > 0) {
+                    queueStatus.textContent = `В очереди перед вами: ${peopleInQueue} капибар...`;
+                } else {
+                    clearInterval(interval);
+                    queueStatus.style.display = 'none'; // Скрываем сообщение об очереди
+                    acceptanceMessage.style.display = 'block'; // Показываем сообщение о принятии заявки
+                }
+            }, 1000); // Уменьшаем очередь каждую секунду
+        });
+    </script>
+
+</body>
+</html>
